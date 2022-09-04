@@ -1,25 +1,29 @@
-import { HttpError } from "react-admin";
-
 const apiUrl = "http://localhost:3000/api";
 
 const createHeadersFromOptions = (options: RequestInit): Headers => {
-    const requestHeaders = (
-        options
-            ? options.headers
-            : new Headers({
-                  Authorization: import.meta.env.VITE_TOKEN,
-                  Accept: "application/json",
-              })
-    ) as Headers;
-    if (
-        !requestHeaders.has("Content-Type") &&
-        !(options && (!options.method || options.method === "GET")) &&
-        !(options && options.body && options.body instanceof FormData)
-    ) {
-        requestHeaders.set("Content-Type", "application/json");
-    }
+    // const requestHeaders = (
+    //     options
+    //         ? options.headers
+    //         : new Headers({
+    //               Authorization: import.meta.env.VITE_TOKEN,
+    //               Accept: "application/json",
+    //           })
+    // ) as Headers;
+    // if (
+    //     !requestHeaders?.has("Content-Type") &&
+    //     !(options && (!options.method || options.method === "GET")) &&
+    //     !(options && options.body && options.body instanceof FormData)
+    // ) {
+    //     requestHeaders?.set("Content-Type", "application/json");
+    // }
 
-    return requestHeaders;
+    // return requestHeaders;
+
+    return new Headers({
+        Authorization: import.meta.env.VITE_TOKEN,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+    });
 };
 
 const fetchJson = (resource: string, options?: RequestInit) => {

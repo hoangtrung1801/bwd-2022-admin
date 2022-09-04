@@ -19,7 +19,8 @@ import {
     UpdateParams,
     UpdateResult,
 } from "ra-core/dist/cjs/types";
-import { DataProvider, HttpError } from "react-admin";
+import { DataProvider, HttpError, ResourceContext } from "react-admin";
+import convertToBase64 from "./convertToBase64";
 import fetchJson from "./fetchJson";
 
 const apiUrl = "http://localhost:3000/api";
@@ -72,7 +73,6 @@ const dataProvider: DataProvider = {
         resource: string,
         params: UpdateParams<any>
     ): Promise<UpdateResult<RecordType>> {
-        console.log(params);
         let updateData: any = {};
         Object.keys(params.data).map((key) => {
             const value = params.data[key];
@@ -80,13 +80,9 @@ const dataProvider: DataProvider = {
             if (JSON.stringify(value) !== JSON.stringify(previousValue))
                 updateData[key] = value;
         });
-        console.log(updateData);
 
         const data = await fetchJson(`${resource}/${params.id}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
             body: JSON.stringify(updateData),
         });
 
@@ -104,12 +100,34 @@ const dataProvider: DataProvider = {
         resource: string,
         params: CreateParams<any>
     ): Promise<CreateResult<RecordType>> {
+        let body = params.data;
+
+        if (resource === "products") {
+            let images = body.images;
+            images = await Promise.all(
+                images.map(async (imageFile) => {
+                    const imageStr = await convertToBase64(imageFile);
+                    // // post upload image & get url from response
+                    const imageResponse = await fetchJson("upload/images", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            data: imageStr,
+                        }),
+                    });
+                    return imageResponse.data.url;
+                })
+            );
+
+            body = {
+                ...body,
+                images,
+            };
+        }
+
+        console.log(body);
         const data = await fetchJson(`${resource}`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(params.data),
+            body: JSON.stringify(body),
         });
 
         return {

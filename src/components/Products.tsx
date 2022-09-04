@@ -1,21 +1,22 @@
+import { useEffect, useState } from "react";
 import {
-    ArrayField,
     ChipField,
     Create,
     Datagrid,
-    DateField,
     Edit,
+    ImageField,
+    ImageInput,
     List,
     NumberField,
     NumberInput,
     ReferenceArrayField,
     ReferenceArrayInput,
-    required,
     SelectArrayInput,
     SimpleForm,
     SingleFieldList,
     TextField,
     TextInput,
+    useRecordContext,
 } from "react-admin";
 
 export const ProductList = () => (
@@ -52,6 +53,13 @@ export const ProductEdit = () => (
             <ReferenceArrayInput reference="categories" source="categoryIDs">
                 <SelectArrayInput optionText="name" />
             </ReferenceArrayInput>
+            {/* <ImageField source="images" src="." label="Images" /> */}
+            <Image />
+            {/* <ArrayField source="images" label="Images">
+                <SingleFieldList>
+                    <TextField />
+                </SingleFieldList>
+            </ArrayField> */}
         </SimpleForm>
     </Edit>
 );
@@ -63,8 +71,31 @@ export const ProductCreate = () => (
             <TextInput source="desc" />
             <NumberInput source="price" />
             <ReferenceArrayInput reference="categories" source="categoryIDs">
-                <SelectArrayInput optionText="name" />
+                <SelectArrayInput optionText="name" label="Categories" />
             </ReferenceArrayInput>
+            <ImageInput source="images" label="Images" multiple>
+                <ImageField source="src" title="title" />
+            </ImageInput>
         </SimpleForm>
     </Create>
 );
+
+const Image = () => {
+    const record = useRecordContext();
+    const [images, setImages] = useState(record.images);
+    useEffect(() => setImages(record.images), [record.images]);
+
+    return (
+        <div style={{ display: "flex" }}>
+            {images.map((image, id) => (
+                <img
+                    key={`image ${id}`}
+                    src={image}
+                    alt={`image ${id}`}
+                    width={300}
+                    height={200}
+                />
+            ))}
+        </div>
+    );
+};
