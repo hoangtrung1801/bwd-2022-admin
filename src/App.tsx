@@ -10,6 +10,11 @@ import {
     CategoryEdit,
     CategoryList,
 } from "./components/Categories";
+import {
+    DonationCreate,
+    DonationEdit,
+    DonationList,
+} from "./components/Donation";
 import { OrderCreate, OrderEdit, OrderList } from "./components/Orders";
 import { PaymentCreate, PaymentEdit, PaymentList } from "./components/Payments";
 import { ProductCreate, ProductEdit, ProductList } from "./components/Products";
@@ -59,6 +64,12 @@ function App() {
                 list={PaymentList}
                 edit={PaymentEdit}
                 // create={PaymentCreate}
+            />
+            <Resource
+                name="donations"
+                list={DonationList}
+                edit={DonationEdit}
+                create={DonationCreate}
             />
         </Admin>
     );

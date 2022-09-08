@@ -48,7 +48,7 @@ export const ProductEdit = () => (
         <SimpleForm>
             <TextInput source="id" disabled />
             <TextInput source="name" />
-            <TextInput source="desc" />
+            <TextInput source="desc" fullWidth multiline/>
             <NumberInput source="price" />
             <ReferenceArrayInput reference="categories" source="categoryIDs">
                 <SelectArrayInput optionText="name" />
@@ -68,7 +68,7 @@ export const ProductCreate = () => (
     <Create>
         <SimpleForm>
             <TextInput source="name" />
-            <TextInput source="desc" />
+            <TextInput source="desc" multiline fullWidth/>
             <NumberInput source="price" />
             <ReferenceArrayInput reference="categories" source="categoryIDs">
                 <SelectArrayInput optionText="name" label="Categories" />

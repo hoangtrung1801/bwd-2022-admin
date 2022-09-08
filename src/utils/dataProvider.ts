@@ -122,9 +122,26 @@ const dataProvider: DataProvider = {
                 ...body,
                 images,
             };
+        } else if (resource === "donations") {
+            let image = body.image;
+            const imageStr = await convertToBase64(image);
+            // // post upload image & get url from response
+            const imageResponse = await fetchJson("upload/images", {
+                method: "POST",
+                body: JSON.stringify({
+                    data: imageStr,
+                }),
+            });
+
+            let expiryDate = body.expiryDate;
+
+            body = {
+                ...body,
+                expiryDate: new Date(expiryDate).toISOString(),
+                image: imageResponse.data.url,
+            };
         }
 
-        console.log(body);
         const data = await fetchJson(`${resource}`, {
             method: "POST",
             body: JSON.stringify(body),
