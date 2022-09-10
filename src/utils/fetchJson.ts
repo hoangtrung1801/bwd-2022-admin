@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "https://bwd-2022-backend-production.up.railway.app";
 
 const createHeadersFromOptions = (options: RequestInit): Headers => {
     // const requestHeaders = (

@@ -23,7 +23,7 @@ import { DataProvider, HttpError, ResourceContext } from "react-admin";
 import convertToBase64 from "./convertToBase64";
 import fetchJson from "./fetchJson";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "https://bwd-2022-backend-production.up.railway.app";
 // const fetcher = (resource: string, option?: RequestInit) =>
 //     fetch(`${apiUrl}/${resource}`, option).then((data) => data.json());
 
