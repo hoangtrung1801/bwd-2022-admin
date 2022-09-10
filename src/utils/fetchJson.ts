@@ -1,4 +1,4 @@
-const apiUrl = "https://bwd-2022-backend-production.up.railway.app";
+const apiUrl = "https://bwd-2022-backend-production.up.railway.app/api";
 
 const createHeadersFromOptions = (options: RequestInit): Headers => {
     // const requestHeaders = (
